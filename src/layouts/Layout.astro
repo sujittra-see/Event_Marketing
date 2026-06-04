@@ -1,0 +1,57 @@
+---
+import BaseHead from "../components/BaseHead.astro";
+import "../styles/global.css";
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} />
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to main content</a>
+    <div class="bg-gradient" aria-hidden="true"></div>
+    <slot />
+  </body>
+</html>
+
+<script>
+  const initScrollReveal = () => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+
+          const el = entry.target as HTMLElement;
+          el.classList.add("animating");
+          el.getBoundingClientRect();
+          el.classList.add("visible");
+
+          let ended = 0;
+          el.addEventListener("transitionend", () => {
+            ended++;
+            if (ended >= 2) el.classList.remove("animating");
+          });
+
+          observer.unobserve(el);
+        });
+      },
+      { rootMargin: "0px 0px -60px 0px", threshold: 0.1 }
+    );
+
+    document.querySelectorAll(".reveal, .reveal-left").forEach((el) => observer.observe(el));
+  };
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initScrollReveal);
+  } else {
+    initScrollReveal();
+  }
+</script>
