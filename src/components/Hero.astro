@@ -2,10 +2,6 @@
 import { Image } from "astro:assets";
 import Icon from "./Icon.astro";
 import { getImage } from "../lib/images";
-
-const basePath = import.meta.env.BASE_URL ?? "/";
-const normalizedBasePath = basePath === "/" ? "" : basePath.replace(/\/$/, "");
-const withBasePath = (path: string) => `${normalizedBasePath}${path.startsWith("/") ? path : `/${path}`}`;
 ---
 
 <section id="hero" aria-labelledby="hero-heading">
@@ -26,7 +22,12 @@ const withBasePath = (path: string) => `${normalizedBasePath}${path.startsWith("
         </div>
 
         <div class="hero-actions">
-          <a href={withBasePath("/resume-sujittra.pdf")} download class="btn-primary">
+          <a
+            href="https://drive.google.com/file/d/1S2MC5qwHv8AO0RVh4Z5jq63s6iYoGVvI/view?usp=sharing"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="btn-primary"
+          >
             <Icon name="download" size={14} />
             Resume
           </a>
